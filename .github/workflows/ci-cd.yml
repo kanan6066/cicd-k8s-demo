@@ -65,3 +65,15 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-test-scan
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/myapp myapp=ghcr.io/kanan6066/cicd-k8s-demo:${{ github.sha }} --record
+          kubectl rollout status deployment/myapp --timeout=120s

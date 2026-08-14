@@ -2,3 +2,5 @@ node_modules/
 npm-debug.log
 .env
 *.log
+actions-runner/
+C:actions-runner/
