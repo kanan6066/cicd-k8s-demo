@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:20-alpine AS builder
+FROM node:20.19-alpine AS builder
 WORKDIR /app
 
 # Copy only package files first — this layer only rebuilds when dependencies change
@@ -10,7 +10,7 @@ RUN npm ci --omit=dev
 COPY app/ ./
 
 # Stage 2: Production image (smaller, no build tools)
-FROM node:20-alpine
+FROM node:20.19-alpine
 WORKDIR /app
 
 # Create a non-root user for security best practice
