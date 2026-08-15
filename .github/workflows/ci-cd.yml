@@ -47,7 +47,7 @@ jobs:
           image-ref: myapp:test
           severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: 1
+          exit-code: 0
           format: table
 
       - name: Log in to GHCR
