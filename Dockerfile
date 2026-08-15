@@ -1,8 +1,10 @@
 # Stage 1: Build
 FROM node:20.19-alpine AS builder
+RUN apk update && apk upgrade --no-cache
 WORKDIR /app
 
-# Copy only package files first — this layer only rebuilds when dependencies change
+# Copy only package files first - this layer only rebuilds when dependencies change
+ARG CACHEBUST=1
 COPY app/package*.json ./
 RUN npm ci --omit=dev
 
@@ -11,6 +13,7 @@ COPY app/ ./
 
 # Stage 2: Production image (smaller, no build tools)
 FROM node:20.19-alpine
+RUN apk update && apk upgrade --no-cache
 WORKDIR /app
 
 # Create a non-root user for security best practice
