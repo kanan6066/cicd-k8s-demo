@@ -37,10 +37,9 @@ jobs:
           build-args: |
             CACHEBUST=${{ github.sha }}
           push: false
+          no-cache: true
           tags: myapp:test
           load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
@@ -65,11 +64,10 @@ jobs:
           build-args: |
             CACHEBUST=${{ github.sha }}
           push: true
+          no-cache: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
   deploy:
     needs: build-test-scan
